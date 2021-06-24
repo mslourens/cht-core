@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import sinon from 'sinon';
 import { TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -78,9 +78,10 @@ describe('Select2SearchService', () => {
       expect(selectEl.val.args[2]).to.deep.equal([ ]);    // read the value
       expect(val).to.equal('');                           // current value ''
       expect(lineageModelGeneratorService.contact.callCount).to.equal(0);   // empty initial value => no calls to DB
+      expect(selectEl.trigger.args[0]).to.deep.equal([ 'change' ]);         // the change is notified to the component
     });
 
-    it('should set right label and value when initial reference is set', async () => {
+    it('should set right value when a valid reference is set', async () => {
       selectEl.children.returns({ length: 0 });
       const person = {
         _id: 'aaa-222-333',
@@ -92,18 +93,38 @@ describe('Select2SearchService', () => {
         },
       };
       lineageModelGeneratorService.contact.resolves(person);
-      await service.init(selectEl, [ 'person' ], {initialValue: 'aaa-222-333'});
+      await service.init(selectEl, [ 'person' ], { initialValue: 'aaa-222-333' });
       expect(selectEl.val.callCount).to.equal(2);
-      expect(selectEl.val.args[0]).to.deep.equal([ 'aaa-222-333' ]);  // set the value
+      expect(selectEl.val.args[0]).to.deep.equal([ 'aaa-222-333' ]); // set the value
       expect(selectEl.val.args[1]).to.deep.equal([ ]);               // read the value
       expect(lineageModelGeneratorService.contact.callCount).to.equal(1);
       expect(lineageModelGeneratorService.contact.args[0]).to.deep.equal([ 'aaa-222-333', { merge: true } ]);
       expect(contactMutedService.getMuted.callCount).to.equal(1);
       expect(contactMutedService.getMuted.args[0]).to.deep.equal([ person.doc ]);
-      expect(val).to.equal('aaa-222-333');                          // current value
+      expect(val).to.equal('aaa-222-333');                           // final value
       expect(select2Val[0]).to.deep.equal({ doc: person.doc });
+      expect(selectEl.trigger.callCount).to.equal(1);
+      expect(selectEl.trigger.args[0]).to.deep.equal([ 'change' ]);  // the change is notified to the component
     });
 
-    // TODO more tests...
+    it('should set empty value when a deleted reference is set', async () => {
+      selectEl.children.returns({ length: 0 });
+      lineageModelGeneratorService.contact.rejects({ code: 404, error: 'not found' });
+      try {
+        await service.init(selectEl, ['person'], {initialValue: 'aaa-222-333'});
+        assert.fail('expected error to be thrown');
+      } catch (e) {
+        expect(selectEl.val.callCount).to.equal(3);
+        expect(selectEl.val.args[0]).to.deep.equal([ 'aaa-222-333' ]);  // set the value
+        expect(selectEl.val.args[1]).to.deep.equal([ ]);                // read the value
+        expect(selectEl.val.args[2]).to.deep.equal([ '' ]);             // set the value to empty again
+        expect(lineageModelGeneratorService.contact.callCount).to.equal(1);
+        expect(lineageModelGeneratorService.contact.args[0]).to.deep.equal([ 'aaa-222-333', { merge: true } ]);
+        expect(contactMutedService.getMuted.callCount).to.equal(0);
+        expect(val).to.equal('');                                       // final value
+        expect(selectEl.trigger.callCount).to.equal(1);
+        expect(selectEl.trigger.args[0]).to.deep.equal([ 'change' ]);   // the change is notified to the component
+      }
+    });
   });
 });
