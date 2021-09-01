@@ -6,6 +6,7 @@ Medic is a nonprofit organization on a mission to improve health in the hardest-
 
 For the latest changes and release announcements see our [release notes](https://github.com/medic/cht-core/tree/master/release-notes). Our exact support matrix (including older app versions) can be found [in our docs](https://docs.communityhealthtoolkit.org/core/overview/supported-software/).
 
+
 ## Overview
 
 The CHT's Core Framework is a software architecture that makes it faster to build full-featured, scalable digital health apps that equip health workers to provide better care in their communities. To learn more about building an application with the Core Framework, visit our guide for [developing community health apps](https://docs.communityhealthtoolkit.org/apps/).
