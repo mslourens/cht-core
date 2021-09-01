@@ -157,7 +157,6 @@ describe('DBSync service', () => {
       getItem.withArgs('medic-last-replicated-date').returns(100);
       clock.tick(500);
 
-
       let fromResolve;
       let toResolve;
       replicationResultFrom = new Promise(resolve => fromResolve = resolve);
