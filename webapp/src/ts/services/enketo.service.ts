@@ -623,6 +623,12 @@ export class EnketoService {
       .then(formDoc => this.getFormAttachment(formDoc));
   }
 
+  private getFormVersion(form) {
+    return this.xmlFormsService
+      .get(form)
+      .then(formDoc => formDoc.xmlVersion);
+  }
+
   private saveDocs(docs) {
     return this.dbService
       .get()
@@ -671,6 +677,7 @@ export class EnketoService {
     return this.getUserContact().then((contact) => {
       return {
         form: formInternalId,
+        form_version: this.getFormVersion(formInternalId),
         type: 'data_record',
         content_type: 'xml',
         reported_date: Date.now(),
