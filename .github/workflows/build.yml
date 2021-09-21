@@ -130,7 +130,7 @@ jobs:
     - name: Install pyxform
       run:  python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
     - name: Install cht-conf
-      run:  npm install -g cht-conf
+      run:  npm install -g git://github.com:medic/cht-conf.git#0d2507382313a657d0c280fb9f899033e48729cd
     - name: npm CI
       run: npm ci
     - name: Should Install Latest
