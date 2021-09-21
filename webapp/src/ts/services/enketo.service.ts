@@ -484,7 +484,6 @@ export class EnketoService {
     const recordDoc = $.parseXML(record);
     const $record = $($(recordDoc).children()[0]);
     const repeatPaths = this.enketoTranslationService.getRepeatPaths(formXml);
-    const xmlVersion = doc.xmlVersion;
 
     const mapOrAssignId = (e, id?) => {
       if (!id) {
@@ -571,7 +570,6 @@ export class EnketoService {
       .map((idx, element) => {
         const docToStore:any = this.enketoTranslationService.reportRecordToJs(getOuterHTML(element));
         docToStore._id = getId(Xpath.getElementXPath(element));
-        docToStore.xmlVersion = xmlVersion;
         docToStore.reported_date = Date.now();
         return docToStore;
       })
