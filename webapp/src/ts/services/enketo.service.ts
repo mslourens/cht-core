@@ -31,26 +31,26 @@ import { TransitionsService } from '@mm-services/transitions.service';
 })
 export class EnketoService {
   constructor(
-    private store:Store,
-    private addAttachmentService:AddAttachmentService,
-    private contactSummaryService:ContactSummaryService,
-    private dbService:DbService,
-    private enketoPrepopulationDataService:EnketoPrepopulationDataService,
-    private enketoTranslationService:EnketoTranslationService,
-    private extractLineageService:ExtractLineageService,
-    private fileReaderService:FileReaderService,
-    private getReportContentService:GetReportContentService,
-    private languageService:LanguageService,
-    private lineageModelGeneratorService:LineageModelGeneratorService,
-    private searchService:SearchService,
-    private submitFormBySmsService:SubmitFormBySmsService,
-    private translateFromService:TranslateFromService,
-    private userContactService:UserContactService,
-    private xmlFormsService:XmlFormsService,
-    private zScoreService:ZScoreService,
-    private transitionsService:TransitionsService,
-    private translateService:TranslateService,
-    private ngZone:NgZone,
+    private store: Store,
+    private addAttachmentService: AddAttachmentService,
+    private contactSummaryService: ContactSummaryService,
+    private dbService: DbService,
+    private enketoPrepopulationDataService: EnketoPrepopulationDataService,
+    private enketoTranslationService: EnketoTranslationService,
+    private extractLineageService: ExtractLineageService,
+    private fileReaderService: FileReaderService,
+    private getReportContentService: GetReportContentService,
+    private languageService: LanguageService,
+    private lineageModelGeneratorService: LineageModelGeneratorService,
+    private searchService: SearchService,
+    private submitFormBySmsService: SubmitFormBySmsService,
+    private translateFromService: TranslateFromService,
+    private userContactService: UserContactService,
+    private xmlFormsService: XmlFormsService,
+    private zScoreService: ZScoreService,
+    private transitionsService: TransitionsService,
+    private translateService: TranslateService,
+    private ngZone: NgZone,
   ) {
     this.inited = this.init();
     this.servicesActions = new ServicesActions(this.store);
@@ -149,9 +149,9 @@ export class EnketoService {
               // Enketo takes this into account when switching languages
               // https://opendatakit.github.io/xforms-spec/#languages
               return !$(element).hasClass('or-form-short') ||
-                ($(element).hasClass('or-form-short') && $(element).siblings( '.or-form-long' ).length === 0 );
+                ($(element).hasClass('or-form-short') && $(element).siblings('.or-form-long').length === 0);
             })
-            .addClass( 'active' );
+            .addClass('active');
         }
 
         const hasContactSummary = $(model).find('> instance[id="contact-summary"]').length === 1;
@@ -166,7 +166,7 @@ export class EnketoService {
 
   private handleKeypressOnInputField(e) {
     // Here we capture both CR and TAB characters, and handle field-skipping
-    if(!window.medicmobile_android || (e.keyCode !== 9 && e.keyCode !== 13)) {
+    if (!window.medicmobile_android || (e.keyCode !== 9 && e.keyCode !== 13)) {
       return;
     }
 
@@ -178,12 +178,12 @@ export class EnketoService {
     const $thisQuestion = $input.closest('.question');
 
     // If there's another question on the current page, focus on that
-    if($thisQuestion.attr('role') !== 'page') {
+    if ($thisQuestion.attr('role') !== 'page') {
       const $nextQuestion = $thisQuestion.find(
         '~ .question:not(.disabled):not(.or-appearance-hidden), ~ .repeat-buttons button.repeat:not(:disabled)'
       );
-      if($nextQuestion.length) {
-        if($nextQuestion[0].tagName !== 'LABEL') {
+      if ($nextQuestion.length) {
+        if ($nextQuestion[0].tagName !== 'LABEL') {
           // The next question is something complicated, so we can't just
           // focus on it.  Next best thing is to blur the current selection
           // so the on-screen keyboard closes.
@@ -209,7 +209,7 @@ export class EnketoService {
     // If there's no question on the current page, try to go to change page,
     // or submit the form.
     const next = enketoContainer.find('.btn.next-page:enabled:not(.disabled)');
-    if(next.length) {
+    if (next.length) {
       next.trigger('click');
     } else {
       enketoContainer.find('.btn.submit').trigger('click');
@@ -231,7 +231,7 @@ export class EnketoService {
   }
 
   private getContactReports(contact) {
-    const subjectIds = [ contact._id ];
+    const subjectIds = [contact._id];
     const shortCode = contact.patient_id || contact.place_id;
     if (shortCode) {
       subjectIds.push(shortCode);
@@ -252,7 +252,7 @@ export class EnketoService {
       .then(([reports, lineage]) => {
         return this.contactSummaryService.get(contact, reports, lineage);
       })
-      .then((summary:any) => {
+      .then((summary: any) => {
         if (!summary) {
           return;
         }
@@ -276,14 +276,14 @@ export class EnketoService {
         this.getContactSummary(doc, instanceData),
         this.languageService.get()
       ])
-      .then(([ instanceStr, contactSummary, language ]) => {
-        const options:any = {
+      .then(([instanceStr, contactSummary, language]) => {
+        const options: any = {
           modelStr: doc.model,
           instanceStr: instanceStr,
           language: language
         };
         if (contactSummary) {
-          options.external = [ contactSummary ];
+          options.external = [contactSummary];
         }
         return options;
       });
@@ -355,11 +355,11 @@ export class EnketoService {
     $wrapper
       .find('.btn.next-page')
       .off('.pagemode')
-      .on('click.pagemode',() => {
+      .on('click.pagemode', () => {
         form.pages
           .next()
           .then((newPageIndex) => {
-            if(typeof newPageIndex === 'number') {
+            if (typeof newPageIndex === 'number') {
               window.history.pushState({ enketo_page_number: newPageIndex }, '');
             }
             this.forceRecalculate(form);
@@ -378,8 +378,8 @@ export class EnketoService {
   }
 
   private addPopStateHandler(form, $wrapper) {
-    $(window).on('popstate.enketo-pagemode', (event:any) => {
-      if(event.originalEvent &&
+    $(window).on('popstate.enketo-pagemode', (event: any) => {
+      if (event.originalEvent &&
         event.originalEvent.state &&
         typeof event.originalEvent.state.enketo_page_number === 'number') {
         const targetPage = event.originalEvent.state.enketo_page_number;
@@ -568,7 +568,7 @@ export class EnketoService {
     const docsToStore = $record
       .find('[db-doc=true]')
       .map((idx, element) => {
-        const docToStore:any = this.enketoTranslationService.reportRecordToJs(getOuterHTML(element));
+        const docToStore: any = this.enketoTranslationService.reportRecordToJs(getOuterHTML(element));
         docToStore._id = getId(Xpath.getElementXPath(element));
         docToStore.reported_date = Date.now();
         return docToStore;
@@ -590,7 +590,7 @@ export class EnketoService {
       .find('[type=file]')
       .each((idx, element) => {
         const xpath = Xpath.getElementXPath(element);
-        const $input:any = $('input[type=file][name="' + xpath + '"]');
+        const $input: any = $('input[type=file][name="' + xpath + '"]');
         const file = $input[0].files[0];
         if (file) {
           attach(element, file, file.type, false, xpath);
@@ -664,7 +664,7 @@ export class EnketoService {
       .get()
       .then((contact) => {
         if (!contact) {
-          const err:any = new Error('Your user does not have an associated contact, or does not have access to the ' +
+          const err: any = new Error('Your user does not have an associated contact, or does not have access to the ' +
             'associated contact. Talk to your administrator to correct this.');
           err.translationKey = 'error.loading.form.no_contact';
           throw err;
@@ -674,17 +674,21 @@ export class EnketoService {
   }
 
   private create(formInternalId) {
-    return this.getUserContact().then((contact) => {
-      return {
-        form: formInternalId,
-        form_version: this.getFormVersion(formInternalId),
-        type: 'data_record',
-        content_type: 'xml',
-        reported_date: Date.now(),
-        contact: this.extractLineageService.extract(contact),
-        from: contact && contact.phone
-      };
-    });
+    return Promise
+      .all([
+        this.getUserContact(),
+        this.getFormVersion(formInternalId),
+      ]).then(([contact, version]) => {
+        return {
+          form: formInternalId,
+          form_version: version,
+          type: 'data_record',
+          content_type: 'xml',
+          reported_date: Date.now(),
+          contact: this.extractLineageService.extract(contact),
+          from: contact && contact.phone
+        };
+      });
   }
 
   private forceRecalculate(form) {
