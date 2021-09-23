@@ -40,6 +40,10 @@ jobs:
       run: ./scripts/ci/couch-start
     - name: Create logs directory
       run: mkdir tests/logs
+    - name: Reconfigure git to use HTTP authentication
+      run: >
+        git config --global url."https://github.com/".insteadOf
+        ssh://git@github.com/
     - name: npm CI
       run: npm ci
     - name: Grunt Install
