@@ -1378,6 +1378,7 @@ describe('Enketo service', () => {
 
       dbBulkDocs.callsFake(docs => Promise.resolve(docs.map(doc => ({ ok: true, id: doc._id, rev: '1' }))));
       dbGetAttachment.resolves('<form/>');
+      dbGet.resolves({ form: 'V', form_version: {time: '1', sha256: 'imahash'}})
       UserContact.resolves({ _id: '123', phone: '555' });
       const geoHandle = sinon.stub().resolves({ geo: 'data' });
       transitionsService.applyTransitions.callsFake((docs) => {
@@ -1404,6 +1405,7 @@ describe('Enketo service', () => {
               fields: { name: 'Sally', lmp: '10' },
               hidden_fields: [],
               form: 'V',
+              form_version: {time: '1', sha256: 'imahash'},
               from: '555',
               geolocation: { geo: 'data' },
               geolocation_log: [{ recording: { geo: 'data' } }],
@@ -1439,6 +1441,7 @@ describe('Enketo service', () => {
               fields: { name: 'Sally', lmp: '10' },
               hidden_fields: [],
               form: 'V',
+              form_version: {time: '1', sha256: 'imahash'},
               from: '555',
               geolocation: { geo: 'data' },
               geolocation_log: [{ recording: { geo: 'data' } }],
