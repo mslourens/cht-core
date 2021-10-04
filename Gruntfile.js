@@ -225,16 +225,6 @@ module.exports = function(grunt) {
         },
       }
     },
-    postcss: {
-      options: {
-        processors: [
-          require('autoprefixer')(),
-        ],
-      },
-      dist: {
-        src: 'build/ddocs/medic/_attachments/css/*.css',
-      },
-    },
     'generate-service-worker': {
       config: {
         staticDirectoryPath: 'build/ddocs/medic/_attachments',
@@ -887,8 +877,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build-css', 'Build the CSS resources', [
-    'sass',
-    'postcss',
+    'sass'
   ]);
 
   grunt.registerTask('build', 'Build the static resources', [
