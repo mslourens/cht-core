@@ -6,7 +6,7 @@ These forms can be used to quickly test specific XForm features. For example, if
 
 ## Loading
 
-The forms can be loaded via the [web admin GUI](https://docs.communityhealthtoolkit.org/apps/features/admin/) or through the command line using `medic-conf`.
+The forms can be loaded via the [web admin GUI](https://docs.communityhealthtoolkit.org/apps/features/admin/) or through the command line using `cht-conf`.
 
 ### Admin Web GUI
 
@@ -20,7 +20,7 @@ The forms can be loaded via the [web admin GUI](https://docs.communityhealthtool
 
 1. Copy the form you want to upload from the `demo-forms` to the `config/default/forms/app` directory. For the `geopoint.xml` form, if you were in the root of this repo, that would be: `cp demo-forms/geopoint.xml config/default/forms/app/`
 1. Change to the default config `cd config/default`
-1. Run `medic-conf` specifying the `upload-app-forms` command along with the specific form you want to upload. This example uses the `geopoint` form.  Note that the trailing `.xml` is not included: `medic-conf --local upload-app-forms -- geopoint`
+1. Run `cht-conf` specifying the `upload-app-forms` command along with the specific form you want to upload. This example uses the `geopoint` form.  Note that the trailing `.xml` is not included: `cht --local upload-app-forms -- geopoint`
 
 
 ### Custom contact types

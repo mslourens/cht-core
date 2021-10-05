@@ -1,6 +1,6 @@
 const constants = require('./constants');
 const auth = require('./auth')();
-const medicConf = require('medic-conf');
+const medicConf = require('cht-conf');
 
 const defaultActions = [
   'compile-app-settings',

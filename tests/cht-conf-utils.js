@@ -7,7 +7,7 @@ const utils = require('./utils');
 const runCommand = async (action, dirPath) => {
   const url = utils.getInstanceUrl();
   try {
-    const { stdout } = await exec(`medic-conf --url=${url} ${action} --force --debug`, { cwd: dirPath });
+    const { stdout } = await exec(`cht --url=${url} ${action} --force --debug`, { cwd: dirPath });
     return stdout;
   } catch (err) {
     return err.stdout;
