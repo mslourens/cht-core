@@ -121,6 +121,7 @@
     "tail": "^2.2.3",
     "time-grunt": "^2.0.0",
     "typescript": "^3.9.10",
+    "uuid": "^8.3.2",
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "bundlesize": [
